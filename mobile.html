@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SMP SERVER — Мобильная версия</title>
+    <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div id="nickname-modal" class="modal-overlay hidden">
+        <div class="glass-card login-card">
+            <h3>Вход в систему</h3>
+            <p>Введите ваш игровой ник на сервере:</p>
+            <input type="text" id="chat-nickname-input" placeholder="Ваш никнейм..." autocomplete="off">
+            <button class="glass-btn btn-primary" onclick="submitNickname()">Войти</button>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <!-- МОБИЛЬНАЯ НАВИГАЦИЯ ИЗ 5 КНОПОК -->
+        <nav class="glass-card nav-bar">
+            <button class="nav-btn active" id="btn-home" onclick="switchTab('home')">Главное</button>
+            <button class="nav-btn" id="btn-rules" onclick="switchTab('rules')">Правила</button>
+            <button class="nav-btn" id="btn-wipe" onclick="toggleWipe()">Вайп</button>
+            <button class="nav-btn relative-btn" id="btn-chat" onclick="switchTab('chat')">Чат<div id="mention-badge" class="mention-alert hidden">@</div></button>
+            <button class="nav-btn" id="btn-game" onclick="switchTab('game')">🎮 Игры</button>
+        </nav>
+
+        <header id="tab-home" class="glass-card header-card page-tab">
+            <h1 class="text-3d">SMP</h1>
+            <p class="server-quote">«Лучший SMP сервер»</p>
+            <p class="server-desc">Survival MultiPlayer — Здесь ты сможешь найти кучу друзей, строить крутые постройки и играть.</p>
+            <div class="stats-container">
+                <div class="online-pill"><span class="pulse-dot"></span> Онлайн: <strong id="player-count">Подключение...</strong></div>
+                <div class="online-pill" id="ip-clicker" onclick="copyIpAddress()">IP: 217.65.3.28:25735 <br><span id="copy-hint">(Нажми для копирования)</span></div>
+            </div>
+            <div id="wipe-popup" class="glass-card popup hidden">В прошлом вайпе ничего нет.</div>
+        </header>
+
+        <section id="tab-chat" class="glass-card chat-card page-tab hidden">
+            <div class="chat-header">
+                <h2>MineChat</h2>
+                <div class="user-session"><span id="current-user-display">---</span><button onclick="logoutMineChat()" class="logout-link">Выйти</button></div>
+            </div>
+            <div id="chat-messages-container" class="chat-body"></div>
+            <div id="reply-indicator" class="reply-bar hidden"><span>Ответ: <strong id="reply-target"></strong></span><button onclick="cancelReply()">✕</button></div>
+            <div class="chat-footer"><input type="text" id="message-input" placeholder="Сообщение..." autocomplete="off"><button class="glass-btn btn-primary" onclick="sendMessage()">➔</button></div>
+        </section>
+
+        <section id="tab-game" class="glass-card page-tab hidden animate-load">
+            <div class="game-header">
+                <h2 style="font-size:1.2rem;">Игры</h2>
+                <div style="font-size:0.9rem;">🪙 Баланс: <strong id="balance-display-mob">0</strong></div>
+                <button class="glass-btn btn-primary" onclick="claimDailyBonus()" style="padding:6px 10px; font-size:0.8rem;">Бонус</button>
+            </div>
+            <div class="crash-arena">
+                <div id="crash-screen" class="crash-screen status-waiting" style="height:200px; background:rgba(0,0,0,0.4); position:relative; overflow:hidden; border-radius:12px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                    <div id="rocket-element" class="rocket" style="position:absolute; font-size:2.5rem; bottom:10px; left:10px; transition:all 0.15s linear;">🚀</div>
+                    <div id="multiplier-text" class="live-multiplier" style="font-size:2.2rem; font-family:'Unbounded'; color:#9eff00; font-weight:900;">1.00x</div>
+                    <div id="timer-text" class="game-timer" style="font-size:0.9rem; color:#6b7280;">До старта...</div>
+                </div>
+                <div class="controls-panel" style="display:flex; gap:10px; margin-top:15px;">
+                    <input type="number" id="bet-amount" value="10" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(158,255,0,0.2); border-radius:8px; padding:10px; color:#fff;">
+                    <button id="action-game-btn" class="glass-btn btn-primary" onclick="handleGameAction()" style="flex:1; padding:10px; font-weight:bold; background:#9eff00; color:#06090e; border:none; border-radius:8px;">Ставка</button>
+                </div>
+            </div>
+        </section>
+
+        <main id="tab-rules" class="glass-card content-card page-tab hidden"><h2 class="section-title">Правила</h2><div id="accordion-rules"></div></main>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="rules.js"></script>
+    <script src="online.js"></script>
+    <script src="chat.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

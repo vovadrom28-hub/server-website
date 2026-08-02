@@ -1,0 +1,69 @@
+@import url('https://googleapis.com');
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { background: #06090e; color: #f3f4f6; font-family: 'Urbanist', sans-serif; min-height: 100vh; overflow-x: hidden; padding: 15px 10px; display: flex; justify-content: center; }
+
+.glow-orb { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.2; }
+.orb-1 { width: 300px; height: 300px; background: #9eff00; top: -5%; left: -10%; }
+.orb-2 { width: 400px; height: 400px; background: #00ff88; bottom: -10%; right: -10%; }
+
+.wrapper { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+.glass-card { background: rgba(13, 20, 30, 0.6); border: 1px solid rgba(158, 255, 0, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 24px; padding: 25px 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
+
+.nav-bar { display: flex; padding: 8px; gap: 6px; border-radius: 16px; }
+.nav-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.03); color: #9ca3af; padding: 12px 6px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; flex: 1; text-align: center; }
+.nav-btn.active { background: #9eff00; color: #06090e; border: none; }
+
+.text-3d { font-family: 'Unbounded', sans-serif; font-size: 2.8rem; font-weight: 900; text-align: center; color: #9eff00; text-shadow: 0 2px 0 #7bcc00, 0 4px 10px rgba(158, 255, 0, 0.3); margin-bottom: 5px; }
+.server-quote { font-family: 'Unbounded', sans-serif; text-align: center; color: #ffffff; font-size: 0.9rem; margin-bottom: 20px; }
+.server-desc { line-height: 1.7; color: #9ca3af; text-align: center; font-size: 0.95rem; margin-bottom: 25px; }
+.server-desc span { color: #00ff88; font-weight: 600; }
+
+.stats-container { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.online-pill { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(0, 0, 0, 0.3); padding: 12px 20px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05); font-size: 1rem; width: 100%; }
+.pulse-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
+.pulse-dot.error { background: #ff4b4b !important; box-shadow: 0 0 10px #ff4b4b !important; }
+
+#ip-clicker { cursor: pointer; border-color: rgba(158, 255, 0, 0.2); color: #9eff00; font-family: monospace; text-align: center; }
+.popup { margin-top: 15px; text-align: center; padding: 15px; font-size: 0.95rem; }
+.hidden { display: none !important; }
+
+.chat-card { display: flex; flex-direction: column; gap: 15px; height: 75vh; padding: 20px 15px; }
+.chat-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px; }
+.chat-header h2 { font-size: 1.2rem; }
+.logout-link { background: transparent; border: none; color: #ff4b4b; font-weight: bold; margin-left: 8px; font-size: 0.85rem; }
+.chat-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+
+.chat-msg { background: rgba(255, 255, 255, 0.02); padding: 10px 12px; border-radius: 12px; }
+.msg-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6b7280; }
+.msg-author { color: #9eff00; font-weight: 700; }
+.msg-text { font-size: 0.95rem; color: #e5e7eb; margin-top: 3px; }
+.msg-text span.mention-tag { color: #00ff88; font-weight: bold; background: rgba(0, 255, 136, 0.1); padding: 1px 3px; border-radius: 4px; }
+.msg-status.read { color: #00ff88; } .msg-status.unread { color: #ffb700; }
+
+.reply-bar { background: rgba(158, 255, 0, 0.08); padding: 8px 12px; display: flex; justify-content: space-between; border-radius: 8px; font-size: 0.85rem; }
+.reply-bar button { background: transparent; border: none; color: #fff; }
+.chat-footer { display: flex; gap: 10px; }
+.chat-footer input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(158, 255, 0, 0.15); border-radius: 12px; padding: 12px; color: #fff; font-size: 0.95rem; outline: none; }
+.chat-footer .glass-btn { padding: 12px 20px; font-size: 1.1rem; border: none; background: #9eff00; color: #06090e; border-radius: 12px; font-weight: bold; }
+
+.section-title { font-family: 'Unbounded', sans-serif; text-align: center; font-size: 1.5rem; margin-bottom: 4px; }
+.section-subtitle { text-align: center; color: #6b7280; font-size: 0.85rem; margin-bottom: 20px; }
+.accordion-item { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; margin-bottom: 10px; }
+.accordion-trigger { width: 100%; padding: 16px; background: transparent; border: none; color: #fff; font-size: 0.95rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+.accordion-trigger span { color: #9eff00; }
+.accordion-icon { font-size: 0.8rem; color: #6b7280; }
+.accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: rgba(0, 0, 0, 0.15); }
+.panel-content { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.sub-rule { padding: 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border-left: 3px solid #6b7280; font-size: 0.9rem; color: #d1d5db; }
+.sub-rule strong { color: #9eff00; }
+.sub-rule.danger { border-left-color: #ff4b4b; background: rgba(255, 75, 75, 0.02); }
+.sub-rule.danger strong { color: #ff4b4b; }
+.accordion-item.active .accordion-panel { max-height: 800px; }
+
+.relative-btn { position: relative; }
+.mention-alert { position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; background: #9eff00; color: #06090e; border-radius: 50%; font-size: 0.75rem; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px #9eff00; }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 999; display: flex; justify-content: center; align-items: center; padding: 20px; }
+.login-card { width: 100%; max-width: 340px; text-align: center; display: flex; flex-direction: column; gap: 12px; }
+.login-card input { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(158, 255, 0, 0.2); border-radius: 12px; padding: 12px; color: #fff; outline: none; }
+.login-card .glass-btn { background: #9eff00; color: #06090e; border: none; padding: 12px; border-radius: 12px; font-weight: bold; font-family: 'Unbounded', sans-serif; font-size: 0.9rem; }

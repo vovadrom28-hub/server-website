@@ -1,0 +1,9 @@
+{
+  "name": "SMP Server Launcher",
+  "short_name": "SMP MineChat",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#06090e",
+  "theme_color": "#9eff00",
+  "orientation": "portrait"
+}
