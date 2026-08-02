@@ -9,7 +9,7 @@ const MINECRAFT_IP = "217.65.3.28";
 const MINECRAFT_PORT = 25735;
 
 const db = new sqlite3.Database('./database.db', (err) => {
-    if (err) console.error('Ошибка БД:', err.message);
+    if (err) console.error('ГЋГёГЁГЎГЄГ  ГЃГ„:', err.message);
 });
 
 db.serialize(() => {
@@ -122,13 +122,13 @@ http.createServer(async (req, res) => {
             db.get("SELECT last_bonus, coins FROM economy WHERE nickname = ?", [data.nickname], (err, row) => {
                 if (row && row.last_bonus === today) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    return res.end(JSON.stringify({ success: false, message: 'Бонус уже получен сегодня!' }));
+                    return res.end(JSON.stringify({ success: false, message: 'ГЃГ®Г­ГіГ± ГіГ¦ГҐ ГЇГ®Г«ГіГ·ГҐГ­ Г±ГҐГЈГ®Г¤Г­Гї!' }));
                 }
                 let newCoins = (row ? row.coins : 0) + 50;
                 db.run("INSERT INTO economy (nickname, coins, last_bonus) VALUES (?, 50, ?) ON CONFLICT(nickname) DO UPDATE SET coins = ?, last_bonus = ?", 
                     [data.nickname, today, newCoins, today], () => {
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: true, coins: newCoins, message: 'Вам начислено 50 MineCoins!' }));
+                        res.end(JSON.stringify({ success: true, coins: newCoins, message: 'Г‚Г Г¬ Г­Г Г·ГЁГ±Г«ГҐГ­Г® 50 MineCoins!' }));
                     });
             });
         });
@@ -144,16 +144,16 @@ http.createServer(async (req, res) => {
                 let currentCoins = row ? row.coins : 0;
                 if (currentLvl >= 10) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    return res.end(JSON.stringify({ success: false, message: 'Максимальный уровень!' }));
+                    return res.end(JSON.stringify({ success: false, message: 'ГЊГ ГЄГ±ГЁГ¬Г Г«ГјГ­Г»Г© ГіГ°Г®ГўГҐГ­Гј!' }));
                 }
                 let cost = currentLvl * 150;
                 if (currentCoins < cost) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    return res.end(JSON.stringify({ success: false, message: `Необходимо ${cost} коинов!` }));
+                    return res.end(JSON.stringify({ success: false, message: `ГЌГҐГ®ГЎГµГ®Г¤ГЁГ¬Г® ${cost} ГЄГ®ГЁГ­Г®Гў!` }));
                 }
                 db.run("UPDATE economy SET coins = ?, upgrade_level = ? WHERE nickname = ?", [currentCoins - cost, currentLvl + 1, data.nickname], () => {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true, message: `Уровень повышен до ${currentLvl + 1}!` }));
+                    res.end(JSON.stringify({ success: true, message: `Г“Г°Г®ГўГҐГ­Гј ГЇГ®ГўГ»ГёГҐГ­ Г¤Г® ${currentLvl + 1}!` }));
                 });
             });
         });
@@ -176,12 +176,12 @@ http.createServer(async (req, res) => {
 
                 if (coins < coinCost) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    return res.end(JSON.stringify({ success: false, message: 'Недостаточно MineCoins!' }));
+                    return res.end(JSON.stringify({ success: false, message: 'ГЌГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® MineCoins!' }));
                 }
                 db.run("UPDATE economy SET coins = ? WHERE nickname = ?", [coins - coinCost, data.nickname], () => {
-                    console.log(`[СЕРВЕР] /eco give ${data.nickname} ${gameCoinsReward}`);
+                    console.log(`[Г‘Г…ГђГ‚Г…Гђ] /eco give ${data.nickname} ${gameCoinsReward}`);
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true, message: `Обмен завершен! Отправлено ${gameCoinsReward} монет в игре.` }));
+                    res.end(JSON.stringify({ success: true, message: `ГЋГЎГ¬ГҐГ­ Г§Г ГўГҐГ°ГёГҐГ­! ГЋГІГЇГ°Г ГўГ«ГҐГ­Г® ${gameCoinsReward} Г¬Г®Г­ГҐГІ Гў ГЁГЈГ°ГҐ.` }));
                 });
             });
         });
@@ -192,9 +192,9 @@ http.createServer(async (req, res) => {
         let body = ''; req.on('data', chunk => body += chunk);
         req.on('end', () => {
             let data = JSON.parse(body);
-            if (crashState.status !== 'waiting') return res.end(JSON.stringify({ success: false, message: 'Идёт полёт!' }));
+            if (crashState.status !== 'waiting') return res.end(JSON.stringify({ success: false, message: 'Г€Г¤ВёГІ ГЇГ®Г«ВёГІ!' }));
             db.get("SELECT coins FROM economy WHERE nickname = ?", [data.nickname], (err, row) => {
-                if (!row || row.coins < data.amount || data.amount <= 0) return res.end(JSON.stringify({ success: false, message: 'Нет коинов!' }));
+                if (!row || row.coins < data.amount || data.amount <= 0) return res.end(JSON.stringify({ success: false, message: 'ГЌГҐГІ ГЄГ®ГЁГ­Г®Гў!' }));
                 db.run("UPDATE economy SET coins = ? WHERE nickname = ?", [row.coins - data.amount, data.nickname], () => {
                     activeBets.push({ nickname: data.nickname, amount: data.amount });
                     res.end(JSON.stringify({ success: true }));
@@ -267,5 +267,5 @@ fs.readFile(filePath, (error, content) => {
     else { res.writeHead(200, { 'Content-Type': contentType + '; charset=utf-8' }); res.end(content, 'utf-8'); }
 });
 }).listen(PORT, () => {
-    console.log(`Сервер запущен! Перейдите: http://localhost:${PORT}`);
+    console.log(`Г‘ГҐГ°ГўГҐГ° Г§Г ГЇГіГ№ГҐГ­! ГЏГҐГ°ГҐГ©Г¤ГЁГІГҐ: http://localhost:${PORT}`);
 });
